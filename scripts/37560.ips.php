@@ -23,9 +23,11 @@ $errorCount = 0;
 $ids = IPS_GetInstanceList();
 foreach ($ids as $id) {
     $instance = IPS_GetInstance($id);
-    if ($instance['InstanceStatus'] > 103) {
+    if ($instance['InstanceStatus'] <= 103) {
+		continue;
+    }
         if ($errorCount == 0) {
-            $content .= '<b>Defekte Instanzen:</b><br />' . "\r\n";
+            $content .= '<b>Defekte Instanzen:</b><br>' . PHP_EOL;
         }
         $errorCount++;
         $instanceStatus = $instance['InstanceStatus'];
@@ -34,12 +36,13 @@ foreach ($ids as $id) {
         } else {
             $s = 'unknown status ' . $instanceStatus;
         }
-        $content .= '<span style="color: ' . ($instanceStatus >= 200 ? 'red' : 'grey') . ';">#' . $id . ': ' . IPS_GetLocation($id) . ': ' . $s . '</span><br />' . "\r\n";
-    }
+		$col = $instanceStatus >= 200 ? 'red' : 'grey';
+		$loc = IPS_GetLocation($id);
+        $content .= '<span style="color: ' . $col . ';">&nbsp;&nbsp;&nbsp;#' . $id . ': ' . $loc . ': ' . $s . '</span><br>' . PHP_EOL;
 }
 
 if ($errorCount > 0) {
-    $content .= '<br />' . "\r\n";
+    $content .= '<br>' . PHP_EOL;
     $errorCount = 0;
 }
 
@@ -47,18 +50,18 @@ $ids = IPS_GetScriptList();
 
 foreach ($ids as $id) {
     $script = IPS_GetScript($id);
-
-    if ($script['ScriptIsBroken']) {
+    if (!$script['ScriptIsBroken']) continue;
         if ($errorCount == 0) {
-            $content .= '<b>Defekte Skripte:</b><br />' . "\r\n";
+            $content .= '<b>Defekte Skripte:</b><br>' . PHP_EOL;
         }
         $errorCount++;
-        $content .= '<span style="color: red;">#' . $id . ': ' . IPS_GetLocation($id) . '</span><br />' . "\r\n";
-    }
+		$col = 'red';
+		$loc = IPS_GetLocation($id);
+        $content .= '<span style="color: '.$col.';">&nbsp;&nbsp;&nbsp;#' . $id . ': ' . $loc . '</span><br>' . PHP_EOL;
 }
 
 if ($errorCount > 0) {
-    $content .= '<br />' . "\r\n";
+    $content .= '<br>' . PHP_EOL;
     $errorCount = 0;
 }
 
@@ -67,20 +70,22 @@ $ids = IPS_GetLinkList();
 foreach ($ids as $id) {
     $link = IPS_GetLink($id);
 
-    if (!IPS_ObjectExists($link['LinkID'])) {
+    if (IPS_ObjectExists($link['LinkID'])) {
+	continue;
+    }
         if ($errorCount == 0) {
-            $content .= '<b>Defekte Links:</b><br />' . "\r\n";
+            $content .= '<b>Defekte Links:</b><br>' . PHP_EOL;
         }
         $errorCount++;
-        $content .= '<span style="color: red;">#' . $id . ': ' . IPS_GetLocation($id) . '</span><br />' . "\r\n";
-    }
+		$col = 'red';
+		$loc = IPS_GetLocation($id);
+        $content .= '<span style="color: '.$col.';">&nbsp;&nbsp;&nbsp;#' . $id . ': ' . $loc . '</span><br>' . PHP_EOL;
 }
 
 $printContent = true;
 
-if (IPS_VariableExists((int) $ContentVariableID)) {
+if (IPS_VariableExists($ContentVariableID)) {
     $variable = IPS_GetVariable($ContentVariableID);
-
     if ($variable['VariableType'] === 3) {
         $printContent = false;
         SetValueString($ContentVariableID, $content);

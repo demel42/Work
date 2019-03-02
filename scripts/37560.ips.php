@@ -1,25 +1,17 @@
 <?php
 
-// -----------------------------------------------------------------------------
-// WebFront-freundliche HTML-Ausgabe aller defekten Instanzen, Skripte und Links
-// -----------------------------------------------------------------------------
-
-// Variablen-ID zur Speicherung der Meldung.
-$ContentVariableID = 48011;
-// -----------------------------------------------------------------------------
-
 $content = '<body bgcolor="#0f2d4b">';
 
 $instanceStatusCodes = [
-    100 => 'module base status',
-    101 => 'module is being created',
-    102 => 'module created and running',
-    103 => 'module is being deleted',
-    104 => 'module is not beeing used'
+    101 => 'Instanz wird erstellt',
+    102 => 'Instanz ist aktiv',
+    103 => 'Instanz wird gelöscht',
+    104 => 'Instanz ist inaktiv',
+	105 => 'Instanz wurde nicht erzeugt',
 ];
 
 $errorCount = 0;
-
+$errorTotal = 0;
 $ids = IPS_GetInstanceList();
 foreach ($ids as $id) {
     $instance = IPS_GetInstance($id);
@@ -32,17 +24,18 @@ foreach ($ids as $id) {
     $errorCount++;
     $instanceStatus = $instance['InstanceStatus'];
     if (isset($instanceStatusCodes[$instanceStatus])) {
-        $s = $instanceStatusCodes[$instanceStatus];
+        $err = $instanceStatusCodes[$instanceStatus];
     } else {
-        $s = 'unknown status ' . $instanceStatus;
+        $err = 'Status ' . $instanceStatus;
     }
     $col = $instanceStatus >= 200 ? 'red' : 'grey';
     $loc = IPS_GetLocation($id);
-    $content .= '<span style="color: ' . $col . ';">&nbsp;&nbsp;&nbsp;#' . $id . ': ' . $loc . ': ' . $s . '</span><br>' . PHP_EOL;
+    $content .= '<span style="color: ' . $col . ';">&nbsp;&nbsp;&nbsp;#' . $id . ': ' . $loc . ': ' . $err . '</span><br>' . PHP_EOL;
 }
 
 if ($errorCount > 0) {
     $content .= '<br>' . PHP_EOL;
+	$errorTotal += $errorCount;
     $errorCount = 0;
 }
 
@@ -64,6 +57,7 @@ foreach ($ids as $id) {
 
 if ($errorCount > 0) {
     $content .= '<br>' . PHP_EOL;
+	$errorTotal += $errorCount;
     $errorCount = 0;
 }
 
@@ -71,7 +65,6 @@ $ids = IPS_GetLinkList();
 
 foreach ($ids as $id) {
     $link = IPS_GetLink($id);
-
     if (IPS_ObjectExists($link['LinkID'])) {
         continue;
     }
@@ -84,16 +77,11 @@ foreach ($ids as $id) {
     $content .= '<span style="color: ' . $col . ';">&nbsp;&nbsp;&nbsp;#' . $id . ': ' . $loc . '</span><br>' . PHP_EOL;
 }
 
-$printContent = true;
-
-if (IPS_VariableExists($ContentVariableID)) {
-    $variable = IPS_GetVariable($ContentVariableID);
-    if ($variable['VariableType'] === 3) {
-        $printContent = false;
-        SetValueString($ContentVariableID, $content);
-    }
+if ($errorCount > 0) {
+    $content .= '<br>' . PHP_EOL;
+	$errorTotal += $errorCount;
+    $errorCount = 0;
 }
 
-if ($printContent) {
-    echo $content;
-}
+SetValueString(48011, $content);
+SetValueInteger(13646, $errorTotal);

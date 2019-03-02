@@ -1,0 +1,43 @@
+{
+  "elements":
+  [
+	{ "type": "Label", "label": "API Key from https://www.wunderground.com/" },
+	{ "type": "ValidationTextBox", "name": "APIKey", "caption": "API Key" },
+
+	{ "type": "Label", "label": "ID of a \"Personal-Weatherstation\" from https://www.wunderground.com. The specification is optional and will be used instead of the location" },
+	{ "type": "ValidationTextBox", "name": "PWSID", "caption": "PWS-ID" },
+
+	{ "type": "NumberSpinner", "digits": 5, "name": "longitude", "caption": "Longitude" },
+	{ "type": "NumberSpinner", "digits": 5, "name": "latitude", "caption": "Latitude" },
+
+	{ "type": "Label", "label": "Which Weatherdata should be fetched" },
+	{ "type": "CheckBox", "name": "FetchNow", "caption": "Fetch actual data" },
+	{ "type": "CheckBox", "name": "FetchHourly", "caption": "Fetch hourly data" },
+	{ "type": "CheckBox", "name": "FetchHalfDaily", "caption": "Fetch 12hours data" },
+	{ "type": "CheckBox", "name": "FetchDaily", "caption": "Fetch daily data" },
+	{ "type": "CheckBox", "name": "FetchStormWarning", "caption": "Fetch stormwarning data" },
+	{ "type": "Label", "label": "How many 1hour forecasts? (max: 24)" },
+	{ "type": "NumberSpinner", "name": "FetchHourlyHoursCount", "caption": "Count" },
+	{ "type": "Label", "label": "How many 12hours forecasts? (Max: 8)" },
+	{ "type": "NumberSpinner", "name": "FetchHalfDailyHalfDaysCount", "caption": "Count" },
+	{ "type": "Label", "label": "How many daily forecasts? (Max: 4)" },
+	{ "type": "NumberSpinner", "name": "FetchDailyDaysCount", "caption": "Count" },
+	{ "type": "Label", "label": "How many Stormwarnings? (Max: 6)" },
+	{ "type": "NumberSpinner", "name": "FetchStormWarningStormWarningCount", "caption": "Count" },
+	{ "type": "Label", "label": "Update weatherdata every X minutes" },
+	{ "type": "IntervalBox", "name": "UpdateWeatherInterval", "caption": "Minutes" },
+	{ "type": "Label", "label": "Update Stormwarnings every X minutes" },
+	{ "type": "IntervalBox", "name": "UpdateWarningInterval", "caption": "Minutes" }
+  ],
+ "actions":
+  [ 
+	{ "type": "Button", "label": "Update Weather", "onClick": "WGW_UpdateWeatherData($id);" }, 
+	{ "type": "Button", "label": "Update Stormwarning", "onClick": "WGW_UpdateStormWarningData($id);" }
+  ],
+  "status":
+  [
+	{ "code": 101, "icon": "active", "caption": "Instance getting created!" },
+	{ "code": 102, "icon": "active", "caption": "Instance is active!" },
+	{ "code": 104, "icon": "inactive", "caption": "Instance is inactive!" }
+  ]
+}

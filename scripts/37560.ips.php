@@ -7,7 +7,7 @@ $instanceStatusCodes = [
     102 => 'Instanz ist aktiv',
     103 => 'Instanz wird gelöscht',
     104 => 'Instanz ist inaktiv',
-	105 => 'Instanz wurde nicht erzeugt',
+    105 => 'Instanz wurde nicht erzeugt',
 ];
 
 $errorCount = 0;
@@ -35,7 +35,7 @@ foreach ($ids as $id) {
 
 if ($errorCount > 0) {
     $content .= '<br>' . PHP_EOL;
-	$errorTotal += $errorCount;
+    $errorTotal += $errorCount;
     $errorCount = 0;
 }
 
@@ -57,7 +57,7 @@ foreach ($ids as $id) {
 
 if ($errorCount > 0) {
     $content .= '<br>' . PHP_EOL;
-	$errorTotal += $errorCount;
+    $errorTotal += $errorCount;
     $errorCount = 0;
 }
 
@@ -79,7 +79,7 @@ foreach ($ids as $id) {
 
 if ($errorCount > 0) {
     $content .= '<br>' . PHP_EOL;
-	$errorTotal += $errorCount;
+    $errorTotal += $errorCount;
     $errorCount = 0;
 }
 

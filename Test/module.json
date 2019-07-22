@@ -1,0 +1,11 @@
+{
+	"id": "{B85F0CC0-5764-4A5B-9E6F-069CE00C46C4}",
+	"name": "Test",
+	"type": 3,
+	"vendor": "",
+	"aliases": [],
+	"parentRequirements": [],
+	"childRequirements": [],
+	"implemented": [],
+	"prefix": "TEST"
+}

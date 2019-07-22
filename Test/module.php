@@ -11,15 +11,15 @@ class Test extends IPSModule
     {
         parent::ApplyChanges();
 
-		$this->SetStatus(IS_ACTIVE);
+        $this->SetStatus(IS_ACTIVE);
     }
 
-	public function GetConfigurationForm()
+    public function GetConfigurationForm()
     {
-		$formElements = [];
-		$formElements[] = ['type' => 'Label', 'caption' => 'Test'];
+        $formElements = [];
+        $formElements[] = ['type' => 'Label', 'caption' => 'Test'];
 
-		$formActions = [];
+        $formActions = [];
 
         $formStatus = [];
         $formStatus[] = ['code' => IS_CREATING, 'icon' => 'inactive', 'caption' => 'Instance getting created'];
@@ -28,11 +28,11 @@ class Test extends IPSModule
         $formStatus[] = ['code' => IS_INACTIVE, 'icon' => 'inactive', 'caption' => 'Instance is inactive'];
         $formStatus[] = ['code' => IS_NOTCREATED, 'icon' => 'inactive', 'caption' => 'Instance is not created'];
 
-		return json_encode(['elements' => $formElements, 'actions' => $formActions, 'status' => $formStatus]);
-	}
+        return json_encode(['elements' => $formElements, 'actions' => $formActions, 'status' => $formStatus]);
+    }
 
-	public function TestFunc()
-	{
-		return 'abc';
-	}
+    public function TestFunc()
+    {
+        return 'abc';
+    }
 }
